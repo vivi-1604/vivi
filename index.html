@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Love ❤ 3 Years Together!</title>
+    <style>
+        body {
+            background: #fff;
+            text-align: center;
+            font-family: 'Arial', sans-serif;
+            padding: 20px;
+            transition: all 0.5s ease;
+            overflow-x: hidden;
+            touch-action: manipulation;
+        }
+
+        #passwordScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ff758c, #ff7eb3);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            color: white;
+        }
+
+        #passwordInput {
+            padding: 12px 20px;
+            font-size: 18px;
+            margin: 15px;
+            border-radius: 25px;
+            border: 2px solid white;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            width: 250px;
+            max-width: 80%;
+            text-align: center;
+        }
+
+        #passwordSubmit {
+            padding: 12px 30px;
+            background: white;
+            color: #ff4081;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        #passwordSubmit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        #passwordError {
+            color: white;
+            display: none;
+            margin-top: 10px;
+            background: rgba(255, 0, 0, 0.3);
+            padding: 8px 15px;
+            border-radius: 20px;
+        }
+
+        #mainContent {
+            display: none;
+            animation: fadeIn 1s ease;
+        }
+
+        #loveButton {
+            background: linear-gradient(45deg, #ff40a0, #ff6b8b);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            margin: 30px auto;
+            box-shadow: 0 4px 15px rgba(255, 64, 129, 0.4);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            width: 90%;
+            max-width: 300px;
+        }
+
+        #loveButton:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 64, 129, 0.6);
+        }
+
+        #messageDisplay {
+            min-height: 150px;
+            margin: 30px auto;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 90%;
+            max-width: 500px;
+        }
+
+        .loveMessage {
+            background: white;
+            padding: 20px;
+            margin: 0 auto;
+            border-radius: 15px;
+            width: 100%;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            position: absolute;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        .loveMessage.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Photo Gallery Styles */
+        #photoGallery {
+            display: none;
+            width: 90%;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .gallery-title {
+            color: #ff4081;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            height: 300px;
+            perspective: 1000px;
+        }
+
+        .gallery-image-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 8s linear;
+            transform-origin: center center;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.2) rotate(1deg);
+        }
+
+        /* Different zoom directions for each image */
+        .gallery-item:nth-child(1):hover img {
+            transform: scale(1.3) translateX(-10%);
+        }
+
+        .gallery-item:nth-child(2):hover img {
+            transform: scale(1.3) translateX(10%);
+        }
+
+        .gallery-item:nth-child(3):hover img {
+            transform: scale(1.3) translateY(-10%);
+        }
+
+        .gallery-item:nth-child(4):hover img {
+            transform: scale(1.3) translateY(10%);
+        }
+
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 10px;
+            font-size: 16px;
+            transform: translateY(100%);
+            transition: transform 0.3s;
+        }
+
+        .gallery-item:hover .gallery-caption {
+            transform: translateY(0);
+        }
+
+        /* Photo Prompt */
+        #photoPrompt {
+            display: none;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            max-width: 350px;
+            width: 90%;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+            animation: slideIn 0.5s ease-out;
+            border-left: 5px solid #ff4081;
+        }
+
+        /* Video Prompt */
+        #videoPrompt {
+            display: none;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            max-width: 350px;
+            width: 90%;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+            animation: slideIn 0.5s ease-out;
+            border-left: 5px solid #ff4081;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+            }
+
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        #videoPrompt h3,
+        #photoPrompt h3 {
+            color: #ff4081;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .prompt-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .prompt-button {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        #yesButton,
+        #yesPhotoButton {
+            background: linear-gradient(45deg, #ff4081, #ff6b8b);
+            color: white;
+        }
+
+        #noButton,
+        #noPhotoButton {
+            background: #f5f5f5;
+            color: #666;
+        }
+
+        .prompt-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #videoContainer {
+            margin: 40px auto;
+            width: 90%;
+            max-width: 600px;
+            display: none;
+            animation: fadeIn 1.5s ease;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        #progressBar {
+            width: 0%;
+            height: 5px;
+            background: linear-gradient(90deg, #ff4081, #ff6b8b);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+
+        #musicToggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(45deg, #ff4081, #ff6b8b);
+            color: white;
+            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(255, 64, 129, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            transition: all 0.3s;
+            z-index: 10;
+        }
+
+        .floating-heart {
+            position: fixed;
+            pointer-events: none;
+            z-index: 1;
+            animation-timing-function: ease-in-out;
+            animation-iteration-count: 1;
+            animation-fill-mode: forwards;
+        }
+
+        @keyframes float-up {
+            0% {
+                transform: translate(-50%, 0) scale(1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translate(-50%, -100vh) scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        @keyframes float-up-right {
+            0% {
+                transform: translate(-50%, 0) scale(1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translate(50vw, -100vh) scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        @keyframes float-up-left {
+            0% {
+                transform: translate(-50%, 0) scale(1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translate(-150vw, -100vh) scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Pulsing Heart Animation */
+        @keyframes heartPulse {
+            0% {
+                transform: translate(-50%, -50%) scale(0.5);
+                opacity: 0;
+            }
+
+            50% {
+                transform: translate(-50%, -50%) scale(1.2);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translate(-50%, -50%) scale(0);
+                opacity: 0;
+            }
+        }
+
+        .pulsing-heart {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            font-size: 100px;
+            color: #ff4081;
+            z-index: 1000;
+            animation: heartPulse 2s ease-out forwards;
+            pointer-events: none;
+        }
+
+        /* New Romantic Features */
+        #loveCounter {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 10px 15px;
+            border-radius: 50px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            font-size: 14px;
+            color: #ff4081;
+            z-index: 10;
+            display: none;
+        }
+
+        #kissButton {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            background: linear-gradient(45deg, #ff4081, #ff6b8b);
+            color: white;
+            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(255, 64, 129, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            transition: all 0.3s;
+            z-index: 10;
+            display: none;
+        }
+
+        #loveLetter {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 500px;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            animation: fadeIn 0.5s ease;
+        }
+
+        #loveLetter h2 {
+            color: #ff4081;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        #loveLetter p {
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        #closeLetter {
+            background: linear-gradient(45deg, #ff4081, #ff6b8b);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        #closeLetter:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #memoryWall {
+            display: none;
+            width: 90%;
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .memory-item {
+            background: #fff9f9;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            border-left: 5px solid #ff6b8b;
+        }
+
+        .memory-date {
+            color: #ff4081;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .memory-text {
+            line-height: 1.6;
+        }
+
+        #countdown {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 10px 15px;
+            border-radius: 50px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            font-size: 14px;
+            color: #ff4081;
+            z-index: 10;
+        }
+
+        #loveMeter {
+            display: none;
+            width: 90%;
+            max-width: 500px;
+            margin: 30px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        #meterFill {
+            height: 30px;
+            background: linear-gradient(90deg, #ff758c, #ff7eb3);
+            border-radius: 15px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #meterText {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-weight: bold;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        #meterLabel {
+            text-align: center;
+            margin-top: 10px;
+            color: #ff4081;
+            font-weight: bold;
+        }
+
+        #loveCalculator {
+            display: none;
+            width: 90%;
+            max-width: 400px;
+            margin: 30px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .calculator-input {
+            margin-bottom: 15px;
+        }
+
+        .calculator-input label {
+            display: block;
+            margin-bottom: 5px;
+            color: #ff4081;
+        }
+
+        .calculator-input input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ffb3c1;
+            border-radius: 5px;
+        }
+
+        #calculateLove {
+            background: linear-gradient(45deg, #ff4081, #ff6b8b);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        #loveResult {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 18px;
+            color: #ff4081;
+            font-weight: bold;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery-item {
+                height: 250px;
+            }
+
+            #photoPrompt,
+            #videoPrompt {
+                right: 50%;
+                transform: translateX(50%);
+                bottom: 20px;
+                max-width: 90%;
+            }
+
+            #musicToggle,
+            #kissButton {
+                bottom: 20px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+
+            #kissButton {
+                bottom: 90px;
+            }
+
+            h1 {
+                font-size: 1.8em !important;
+            }
+
+            #loveCounter,
+            #countdown {
+                top: 10px;
+                right: 10px;
+                left: auto;
+                font-size: 12px;
+                padding: 8px 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="progressBar"></div>
+    <div id="loveCounter">💗 Clicks: 0</div>
+    <div id="countdown">Next meeting in: -- days -- hours -- minutes</div>
+
+    <div id="passwordScreen">
+        <h1 style="font-size: 2.5em; margin-bottom: 10px;">❤ Our Special Moment ❤</h1>
+        <p style="font-size: 1.1em; margin-bottom: 30px;">Enter the date we first met (DDMMYYYY)</p>
+        <input type="password" id="passwordInput" placeholder="06092022" inputmode="numeric">
+        <button id="passwordSubmit">Unlock Our Love</button>
+        <p id="passwordError">Wrong code! Try again my love</p>
+    </div>
+
+    <div id="mainContent">
+        <h1 style="font-size: 2.2em; color: #ff4081; margin-bottom: 10px;">Happy 3rd Anniversary!</h1>
+        <p style="color: #666; margin-bottom: 30px;">Click the button below to read my messages for you...</p>
+
+        <button id="loveButton">Read My Messages ❤</button>
+
+        <div id="messageDisplay">
+            <div class="loveMessage" id="currentMessage"></div>
+        </div>
+
+        <div id="loveMeter">
+            <h3 style="color: #ff4081; text-align: center;">Our Love Meter</h3>
+            <div id="meterFill">
+                <div id="meterText">100%</div>
+            </div>
+            <div id="meterLabel">How much I love you today</div>
+        </div>
+
+        <div id="loveCalculator">
+            <h3 style="color: #ff4081; text-align: center;">Love Calculator</h3>
+            <div class="calculator-input">
+                <label for="yourName">Your Name:</label>
+                <input type="text" id="yourName" placeholder="Enter your name">
+            </div>
+            <div class="calculator-input">
+                <label for="partnerName">Partner's Name:</label>
+                <input type="text" id="partnerName" placeholder="Enter partner's name">
+            </div>
+            <button id="calculateLove">Calculate Love</button>
+            <div id="loveResult"></div>
+        </div>
+
+        <div id="photoGallery">
+            <h3 class="gallery-title">Our Beautiful Memories Together</h3>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <div class="gallery-image-container">
+                        <img src="images/pic1.png" alt="Our First Meet">
+                        <div class="gallery-caption">The day we first met 💗</div>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-image-container">
+                        <img src="images/pic1.png" alt="Our First Date">
+                        <div class="gallery-caption">Our first date was magical ✨</div>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-image-container">
+                        <img src="images/pic1.png" alt="Special Moment">
+                        <div class="gallery-caption">This memory warms my heart every time</div>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-image-container">
+                        <img src="images/pic1.png" alt="Future Together">
+                        <div class="gallery-caption">Many more years to come!</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="memoryWall">
+            <h3 style="color: #ff4081; text-align: center;">Our Memory Wall</h3>
+            <div class="memory-item">
+                <div class="memory-date">June 9, 2022</div>
+                <div class="memory-text">The day we first met. I knew from that moment you were special.</div>
+            </div>
+            <div class="memory-item">
+                <div class="memory-date">July 15, 2022</div>
+                <div class="memory-text">Our first date at the coffee shop. You made me laugh so much my cheeks hurt.
+                </div>
+            </div>
+            <div class="memory-item">
+                <div class="memory-date">December 24, 2022</div>
+                <div class="memory-text">Our first Christmas together. The way you looked in that sweater still makes my
+                    heart skip.</div>
+            </div>
+            <div class="memory-item">
+                <div class="memory-date">June 9, 2023</div>
+                <div class="memory-text">Our first anniversary. You surprised me with that weekend getaway.</div>
+            </div>
+        </div>
+
+        <div id="photoPrompt">
+            <h3>Would you like to see our beautiful memories now?</h3>
+            <div class="prompt-buttons">
+                <button id="yesPhotoButton" class="prompt-button">Yes, Show Me</button>
+                <button id="noPhotoButton" class="prompt-button">Not Yet</button>
+            </div>
+        </div>
+
+        <div id="videoPrompt">
+            <h3>Would you like to watch our special video now?</h3>
+            <div class="prompt-buttons">
+                <button id="yesButton" class="prompt-button">Yes, Play Video</button>
+                <button id="noButton" class="prompt-button">Not Yet</button>
+            </div>
+        </div>
+
+        <div id="loveLetter">
+            <h2>My Dearest Love,</h2>
+            <p>As I sit here thinking about our journey together, my heart overflows with love and gratitude for you.
+                These past three years have been the most beautiful of my life, filled with laughter, growth, and
+                endless love.</p>
+            <p>Remember when we first met? I knew from that moment there was something special about you. Your smile lit
+                up the room, and your kindness touched my soul. Little did I know that day would be the beginning of the
+                greatest love story of my life.</p>
+            <p>Through all the ups and downs, the distance that sometimes separates us, and the challenges we've faced
+                together, one thing remains constant - my love for you grows stronger every day.</p>
+            <p>Thank you for being my rock, my partner, and my best friend. Here's to many more years of love,
+                adventures, and building our beautiful life together.</p>
+            <p>Forever yours,</p>
+            <p style="text-align: right; font-style: italic;">Koko's A Thel</p>
+            <button id="closeLetter">Close</button>
+        </div>
+
+        <div id="videoContainer">
+            <video width="100%" controls id="loveVideo" preload="metadata">
+                <source src="videos/vd.mp4" type="video/mp4">
+                Your browser doesn't support the video tag.
+            </video>
+        </div>
+
+        <button id="musicToggle">♪</button>
+        <button id="kissButton">💋</button>
+
+        <audio id="bgMusic" loop>
+  <source src="audio/bg-music.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+
+        <audio id="kissSound">
+            <source src="https://assets.mixkit.co/sfx/preview/mixkit-kiss-sound-1490.mp3" type="audio/mpeg">
+        </audio>
+    </div>
+</body>
+<script>
+    // Password Protection
+    const correctPassword = "06092022";
+    const passwordScreen = document.getElementById('passwordScreen');
+    const passwordInput = document.getElementById('passwordInput');
+    const passwordSubmit = document.getElementById('passwordSubmit');
+    const passwordError = document.getElementById('passwordError');
+    const mainContent = document.getElementById('mainContent');
+    const progressBar = document.getElementById('progressBar');
+    const loveCounter = document.getElementById('loveCounter');
+    let clickCount = 0;
+
+    passwordSubmit.addEventListener('click', checkPassword);
+    passwordInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') checkPassword();
+    });
+
+    function checkPassword() {
+        if (passwordInput.value === correctPassword) {
+            passwordScreen.style.display = 'none';
+            mainContent.style.display = 'block';
+            document.body.style.background = '#fff';
+            loveCounter.style.display = 'block';
+            kissButton.style.display = 'flex';
+            startMusic();
+            startCountdown();
+        } else {
+            passwordError.style.display = 'block';
+            passwordInput.value = '';
+        }
+    }
+
+    // Countdown to next meeting
+    function startCountdown() {
+        // Set your next meeting date here (YYYY, MM-1, DD)
+        const nextMeetingDate = new Date(2025, 8, 20); // September 20, 2025 (months are 0-indexed)
+
+        function updateCountdown() {
+            const now = new Date();
+            const diff = nextMeetingDate - now;
+
+            if (diff <= 0) {
+                countdown.textContent = "We're together now! 💗";
+                return;
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+            countdown.textContent = `Next meeting in: ${days}d ${hours}h ${minutes}m`;
+            countdown.style.display = 'block';
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 60000); // Update every minute
+    }
+
+    // Create floating hearts with different properties
+    function createHearts() {
+        const heartStyles = ['❤', '❤', '❤', '❤', '❤'];
+        const colors = ['#ff4081', '#ff6b8b', '#ff8a9d', '#ffb3c1', '#ff758c', '#ff7eb3'];
+        const animations = ['float-up', 'float-up-right', 'float-up-left'];
+
+        for (let i = 0; i < 30; i++) {
+            const heart = document.createElement('div');
+            heart.className = 'floating-heart';
+            heart.innerHTML = heartStyles[Math.floor(Math.random() * heartStyles.length)];
+
+            // Random properties
+            const size = Math.random() * 20 + 10;
+            const left = Math.random() * 100;
+            const duration = Math.random() * 8 + 4; // 4-12 seconds
+            const delay = Math.random() * 5;
+            const animationType = animations[Math.floor(Math.random() * animations.length)];
+
+            // Apply styles
+            heart.style.left = left + 'vw';
+            heart.style.top = '100vh';
+            heart.style.fontSize = size + 'px';
+            heart.style.color = colors[Math.floor(Math.random() * colors.length)];
+            heart.style.animationName = animationType;
+            heart.style.animationDuration = duration + 's';
+            heart.style.animationDelay = delay + 's';
+
+            document.body.appendChild(heart);
+
+            // Remove heart after animation completes
+            setTimeout(() => {
+                heart.remove();
+            }, (duration + delay) * 1000);
+        }
+    }
+
+    // Love Messages
+    const loveMessages = [
+        "I love you more than yesterday...",
+        "You're my favorite hello and hardest goodbye.",
+        "3 years and still counting...",
+        "I miss you every second.",
+        "You're my happy place.",
+        "I'd choose you in every lifetime.",
+        "Long distance can't stop us.",
+        "I love your smile.",
+        "I can't wait to hug you again.",
+        "You're my everything.",
+        "Every moment with you is special.",
+        "You make my heart skip a beat.",
+        "I fall in love with you more each day.",
+        "You're the reason I believe in love.",
+        "My favorite place is in your arms.",
+        "You complete me in every way.",
+        "I cherish every memory we've made.",
+        "You're my dream come true.",
+        "I love the way you love me.",
+        "Forever isn't long enough with you."
+    ];
+
+    const loveButton = document.getElementById('loveButton');
+    const currentMessage = document.getElementById('currentMessage');
+    const photoGallery = document.getElementById('photoGallery');
+    const photoPrompt = document.getElementById('photoPrompt');
+    const yesPhotoButton = document.getElementById('yesPhotoButton');
+    const noPhotoButton = document.getElementById('noPhotoButton');
+    const videoPrompt = document.getElementById('videoPrompt');
+    const videoContainer = document.getElementById('videoContainer');
+    const loveVideo = document.getElementById('loveVideo');
+    const musicToggle = document.getElementById('musicToggle');
+    const bgMusic = document.getElementById('bgMusic');
+    const yesButton = document.getElementById('yesButton');
+    const noButton = document.getElementById('noButton');
+    const kissButton = document.getElementById('kissButton');
+    const kissSound = document.getElementById('kissSound');
+    const loveLetter = document.getElementById('loveLetter');
+    const closeLetter = document.getElementById('closeLetter');
+    const memoryWall = document.getElementById('memoryWall');
+    const loveMeter = document.getElementById('loveMeter');
+    const meterText = document.getElementById('meterText');
+    const loveCalculator = document.getElementById('loveCalculator');
+    const calculateLove = document.getElementById('calculateLove');
+    const loveResult = document.getElementById('loveResult');
+    const countdown = document.getElementById('countdown');
+
+    let isMusicPlaying = false;
+    let messageIndex = 0;
+
+    // Main button logic
+    loveButton.addEventListener('click', () => {
+        clickCount++;
+        loveCounter.textContent = `❤ Clicks: ${clickCount}`;
+        createHearts();
+
+        // Cycle through messages
+        currentMessage.classList.remove('active');
+
+        setTimeout(() => {
+            currentMessage.textContent = loveMessages[messageIndex];
+            currentMessage.classList.add('active');
+            messageIndex = (messageIndex + 1) % loveMessages.length;
+        }, 100);
+
+        // Update progress bar
+        const progress = (clickCount / loveMessages.length) * 100;
+        progressBar.style.width = `${Math.min(100, progress)}%`;
+
+        // Trigger events at certain click counts
+        if (clickCount === 5) {
+            photoPrompt.style.display = 'block';
+        }
+        if (clickCount === 10) {
+            loveMeter.style.display = 'block';
+        }
+        if (clickCount === 15) {
+            loveCalculator.style.display = 'block';
+        }
+        if (clickCount === loveMessages.length) {
+            videoPrompt.style.display = 'block';
+            loveButton.textContent = "One Last Surprise...";
+        }
+        if (clickCount > loveMessages.length) {
+            loveLetter.style.display = 'block';
+        }
+    });
+
+
+    // Start music
+    function startMusic() {
+        bgMusic.volume = 0.4;
+        bgMusic.play().then(() => {
+            isMusicPlaying = true;
+            musicToggle.textContent = "❚❚";
+        }).catch(e => {
+            console.log("Autoplay was prevented. User must interact first.");
+            musicToggle.textContent = "▶";
+        });
+    }
+
+    // Stop music when video appears
+    function stopMusic() {
+        bgMusic.pause();
+        isMusicPlaying = false;
+        musicToggle.textContent = "♪";
+    }
+
+    // Toggle music
+    musicToggle.addEventListener('click', () => {
+        if (isMusicPlaying) {
+            bgMusic.pause();
+            musicToggle.textContent = "♪";
+        } else {
+            bgMusic.play();
+            musicToggle.textContent = "❚❚";
+        }
+        isMusicPlaying = !isMusicPlaying;
+    });
+
+    // Photo prompt logic
+    yesPhotoButton.addEventListener('click', () => {
+        photoGallery.style.display = 'block';
+        memoryWall.style.display = 'block';
+        photoPrompt.style.display = 'none';
+    });
+    noPhotoButton.addEventListener('click', () => {
+        photoPrompt.style.display = 'none';
+    });
+
+    // Video prompt logic
+    yesButton.addEventListener('click', () => {
+        videoContainer.style.display = 'block';
+        videoPrompt.style.display = 'none';
+        stopMusic();
+        loveVideo.play();
+    });
+    noButton.addEventListener('click', () => {
+        videoPrompt.style.display = 'none';
+    });
+
+    // Kiss button
+    kissButton.addEventListener('click', function () {
+        kissSound.currentTime = 0;
+        kissSound.play();
+        createHearts();
+
+        // Create and animate the large pulsing heart
+        const pulsingHeart = document.createElement('div');
+        pulsingHeart.className = 'pulsing-heart';
+        pulsingHeart.innerHTML = '❤';
+        document.body.appendChild(pulsingHeart);
+
+        // Remove the heart element after the animation is complete
+        setTimeout(() => {
+            pulsingHeart.remove();
+        }, 2000); // 2000ms matches the animation duration
+    });
+
+    // Close love letter
+    closeLetter.addEventListener('click', function () {
+        loveLetter.style.display = 'none';
+    });
+
+    // Love calculator
+    calculateLove.addEventListener('click', function () {
+        const yourName = document.getElementById('yourName').value.trim();
+        const partnerName = document.getElementById('partnerName').value.trim();
+
+        if (!yourName || !partnerName) {
+            loveResult.textContent = "Please enter both names!";
+            return;
+        }
+
+        // Simple love calculation (just for fun)
+        const combined = (yourName + partnerName).toLowerCase();
+        let loveScore = 0;
+
+        for (let i = 0; i < combined.length; i++) {
+            loveScore += combined.charCodeAt(i);
+        }
+
+        loveScore = (loveScore % 31) + 70; // Ensures a score between 70-100
+
+        loveResult.textContent = `Our Love Score: ${loveScore}% 💗 Perfect!`;
+    });
+</script>
